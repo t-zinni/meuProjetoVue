@@ -113,16 +113,18 @@ const confirmCreation = () => {
 
 const fetchLabels = async () => {
     try {
-        const token = await authenticateUser('tomas@ualg.pt', 'tomas@2024', 'EN');
+        const token = await authenticateUser('tomas@ualg.pt', 'Tomas@2024', 'EN');
         setAuthToken(token);
-        const { data } = await fetchPageLayout('EN2601');
-        labels.value = data.labels;
-        helps.value = data.helps;
-        console.log("Labels e helps atualizados:", labels.value, helps.value);
+        const response = await fetchPageLayout('EN2601');
+        console.log("Resposta completa da API:", response);  // Log the complete response
+        labels.value = response.labels;
+        helps.value = response.helps;
     } catch (error) {
         console.error("Erro ao buscar os dados:", error);
     }
 };
+
+
 
 
 onMounted(() => {
