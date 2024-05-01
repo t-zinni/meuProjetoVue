@@ -5,37 +5,44 @@
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/"></ion-back-button>
         </ion-buttons>
-        <ion-title>Create Class</ion-title>
+        <ion-title>{{ labels.value?.title || 'Create Chapter' }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true" class="ion-padding">
       <div class="container">
         <div class="inputCustom spacing">
           <ion-input
-            label="Class' name"
+            :label="labels.value?.chapter || 'Chapter\'s name'"
             label-placement="stacked"
             fill="outline"
-            placeholder="Write here your class">
+            :placeholder="helps.value?.chapter || 'Write here the chapter’s name'">
           </ion-input>
         </div>
         <div class="inputCustom spacing">
-          <ion-select  label="Courses" label-placement="stacked" id="course" v-model="selectedCourse" fill="outline" placeholder="Choose the course" interface="popover">
-            <ion-select-option v-for="course in courses" :key="course.id" :value="course.id">
-              {{ course.name }}
-            </ion-select-option>
-          </ion-select>
+          <ion-input
+            :label="labels.value?.subchapter || 'Sub-chapter\'s name'"
+            label-placement="stacked"
+            fill="outline"
+            :placeholder="helps.value?.subchapter || 'Write here the sub-chapter’s name'">
+          </ion-input>
         </div>
         <ion-button size="large" shape="round" class="spacing">
-          CONFIRM
+          {{ labels.value?.btn || 'Confirm' }}
         </ion-button>
       </div>
     </ion-content>
   </ion-page>
 </template>
 
+
 <style>
 .spacing {
   margin-bottom: 16px;
+}
+
+
+.inputCustom ion-label {
+  border-radius: 20px;
 }
 
 .container {
@@ -63,6 +70,7 @@ ion-item {
 
 
 <script setup lang="ts">
+import { onMounted, ref } from 'vue';
 import {
   IonBackButton,
   IonContent,
@@ -79,12 +87,46 @@ import {
   IonButtons,
   IonTextarea
 } from '@ionic/vue';
+import { authenticateUser, setAuthToken, fetchPageLayout } from '@/services/apiService';
 import { useCourseStore } from '@/stores/courseStore';
 
+
+const labels = ref({
+    title: '',
+    chapter: '',
+    subchapter: '',
+    btn: ''
+});
+
+const helps = ref({
+    chapter: '',
+    subchapter: ''
+});
+
 const { courses, setSelectedCourse, selectedCourse } = useCourseStore();
+
 
 const confirmCreation = () => {
   console.log("Creation confirmed with course: ", selectedCourse);
   setSelectedCourse(selectedCourse);
 };
+
+const fetchLabels = async () => {
+    try {
+        const token = await authenticateUser('tomas@ualg.pt', 'tomas@2024', 'EN');
+        setAuthToken(token);
+        const { data } = await fetchPageLayout('EN2601');
+        labels.value = data.labels;
+        helps.value = data.helps;
+        console.log("Labels e helps atualizados:", labels.value, helps.value);
+    } catch (error) {
+        console.error("Erro ao buscar os dados:", error);
+    }
+};
+
+
+onMounted(() => {
+  fetchLabels();
+});
 </script>
+
