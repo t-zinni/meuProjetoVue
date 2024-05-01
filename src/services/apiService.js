@@ -5,7 +5,6 @@ const apiClient = axios.create({
     baseURL: 'https://milage.ualg.pt/mlv2/api/'
 });
 
-// Função para autenticação e obtenção do token
 export const authenticateUser = async (email, password, language) => {
     try {
         const response = await apiClient.post('login/', {
@@ -13,14 +12,13 @@ export const authenticateUser = async (email, password, language) => {
             password: password,
             language: language
         });
-        return response.data.token;  // Supondo que o token está no campo 'data.token'
+        return response.data.token;
     } catch (error) {
         console.error('Authentication error:', error);
         throw error;
     }
 };
 
-// Configurar o token para todas as requisições após autenticação
 export const setAuthToken = (token) => {
     if (token) {
         apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -29,11 +27,10 @@ export const setAuthToken = (token) => {
     }
 };
 
-// Função para buscar os layouts de página
 export const fetchPageLayout = async (pageCode) => {
     try {
         const response = await apiClient.get(`page-layouts/${pageCode}`);
-        return response.data;  // Supondo que os dados desejados estão no campo 'data'
+        return response.data; 
     } catch (error) {
         console.error('Failed to fetch page layout:', error);
         throw error;
