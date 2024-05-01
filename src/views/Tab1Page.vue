@@ -5,29 +5,29 @@
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/"></ion-back-button>
         </ion-buttons>
-        <ion-title>{{ labels.value?.title || 'Create Chapter' }}</ion-title>
+        <ion-title>{{ labels.value?.title}}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true" class="ion-padding">
       <div class="container">
         <div class="inputCustom spacing">
           <ion-input
-            :label="labels.value?.chapter || 'Chapter\'s name'"
+            :label="labels.value.chapter"
             label-placement="stacked"
             fill="outline"
-            :placeholder="helps.value?.chapter || 'Write here the chapter’s name'">
+            :placeholder="helps.value.chapter">
           </ion-input>
         </div>
         <div class="inputCustom spacing">
           <ion-input
-            :label="labels.value?.subchapter || 'Sub-chapter\'s name'"
+            :label="labels.value.subchapter"
             label-placement="stacked"
             fill="outline"
-            :placeholder="helps.value?.subchapter || 'Write here the sub-chapter’s name'">
+            :placeholder="helps.value.subchapter">
           </ion-input>
         </div>
         <ion-button size="large" shape="round" class="spacing">
-          {{ labels.value?.btn || 'Confirm' }}
+          {{ labels.value?.btn}}
         </ion-button>
       </div>
     </ion-content>
@@ -113,7 +113,7 @@ const confirmCreation = () => {
 
 const fetchLabels = async () => {
     try {
-        const token = await authenticateUser('tomas@ualg.pt', 'tomas@2024', 'EN');
+        const token = await authenticateUser('tomas@ualg.pt', 'tomas@2024', 'PT');
         setAuthToken(token);
         const { data } = await fetchPageLayout('EN2601');
         labels.value = data.labels;
