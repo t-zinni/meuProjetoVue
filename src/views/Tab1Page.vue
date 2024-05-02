@@ -113,10 +113,10 @@ const confirmCreation = () => {
 
 const fetchLabels = async () => {
     try {
-        const token = await authenticateUser('tomas@ualg.pt', 'Tomas@2024', 'EN');
+        const token = await authenticateUser('tomas@ualg.pt', 'Tomas@2024', 'PT');
         setAuthToken(token);
-        const response = await fetchPageLayout('EN2601');
-        console.log("Resposta completa da API:", response);  // Log the complete response
+        const response = await fetchPageLayout('PT2601');
+        console.log("Resposta completa da API:", response); 
         labels.value = response.labels;
         helps.value = response.helps;
     } catch (error) {
