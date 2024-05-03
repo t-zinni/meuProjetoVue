@@ -116,7 +116,6 @@ const fetchLabels = async () => {
         const token = await authenticateUser('tomas@ualg.pt', 'Tomas@2024', 'PT');
         setAuthToken(token);
         const response = await fetchPageLayout('PT2601');
-        console.log("Resposta completa da API:", response); 
         labels.value = response.labels;
         helps.value = response.helps;
     } catch (error) {
@@ -124,11 +123,9 @@ const fetchLabels = async () => {
     }
 };
 
-
-
-
 onMounted(() => {
   fetchLabels();
 });
+
 </script>
 
